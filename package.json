@@ -1,0 +1,18 @@
+{
+  "name": "astro-alok-tripathi-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Astro Alok Tripathi bilingual astrology website and enquiry API",
+  "engines": {
+    "node": ">=20.6"
+  },
+  "scripts": {
+    "start": "node --env-file=.env server.cjs",
+    "create-admin": "node --env-file=.env create-admin.cjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "pg": "^8.16.3",
+    "ws": "^8.18.3"
+  }
+}

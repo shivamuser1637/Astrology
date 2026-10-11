@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="bg"><stop stop-color="#243659"/><stop offset="1" stop-color="#101c36"/></radialGradient>
+    <radialGradient id="gold"><stop stop-color="#ead8a9"/><stop offset="1" stop-color="#c6a562"/></radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g fill="#d8c38f" opacity=".8"><circle cx="122" cy="106" r="2"/><circle cx="331" cy="484" r="2"/><circle cx="982" cy="113" r="2"/><circle cx="1090" cy="431" r="2"/><circle cx="794" cy="520" r="2"/><circle cx="223" cy="310" r="1.5"/><circle cx="1040" cy="282" r="1.5"/></g>
+  <g transform="translate(813 315)" fill="none" stroke="#c6a562">
+    <circle r="225" opacity=".35"/><circle r="188" opacity=".8" stroke-width="2"/><circle r="131" opacity=".55" stroke-width="1.5"/>
+    <path d="M0-188V188M-188 0H188M-133-133 133 133M133-133-133 133M-72-174 72 174M72-174-72 174M-174-72 174 72M-174 72 174-72" opacity=".55"/>
+  </g>
+  <circle cx="813" cy="315" r="57" fill="url(#gold)"/><circle cx="813" cy="315" r="24" fill="#101c36"/>
+  <g fill="#e7d6ac" font-family="Georgia,serif" font-size="28" text-anchor="middle"><text x="813" y="149">☼</text><text x="975" y="315">✧</text><text x="813" y="500">☾</text><text x="651" y="315">✦</text></g>
+  <g fill="#c6a562" font-family="Arial,sans-serif"><text x="86" y="173" font-size="17" letter-spacing="5">40 YEARS OF VEDIC ASTROLOGY</text></g>
+  <g fill="#f8f4eb" font-family="Georgia,serif"><text x="83" y="258" font-size="57">Astro Alok</text><text x="83" y="323" font-size="57">Tripathi</text></g>
+  <path d="M88 360h355" stroke="#c6a562" stroke-width="2"/>
+  <text x="88" y="411" fill="#ded5c3" font-family="Arial,sans-serif" font-size="22" letter-spacing="1">Ancient Wisdom. Personal Guidance.</text>
+</svg>
