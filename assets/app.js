@@ -169,10 +169,19 @@
         error.append(" ", fallback);
       }
     } catch {
-      if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.close();
+      if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.location.replace(openWhatsApp(message));
       formError(form, language === "hi"
         ? "आपका अनुरोध डेटाबेस में सहेजा नहीं जा सका, इसलिए WhatsApp संदेश नहीं खोला गया। कृपया फिर प्रयास करें या सीधे WhatsApp पर संपर्क करें।"
-        : "Your enquiry could not be saved to the database, so WhatsApp was not opened. Please try again or contact us directly on WhatsApp.");
+        : "The website could not save your enquiry, but your WhatsApp message is ready. Review it and press Send to contact us.");
+      if (!whatsappWindow) {
+        const fallback = document.createElement("a");
+        fallback.className = "text-link";
+        fallback.href = openWhatsApp(message);
+        fallback.target = "_blank";
+        fallback.rel = "noopener noreferrer";
+        fallback.textContent = language === "hi" ? "WhatsApp à¤¸à¤‚à¤¦à¥‡à¤¶ à¤–à¥‹à¤²à¥‡à¤‚" : "Open WhatsApp message";
+        error.append(" ", fallback);
+      }
     } finally {
       button.disabled = false;
     }
