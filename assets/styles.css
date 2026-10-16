@@ -54,6 +54,7 @@ body:lang(hi) .brand-text small { font-family: var(--hindi); font-size: 11px; le
 .language-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 8px 4px; color: #e9e2d5; background: transparent; border: 0; cursor: pointer; font-size: 11px; }
 .language-globe { color: var(--gold); font-size: 16px; }
 .header-book { display: inline-flex; align-items: center; gap: 13px; padding: 11px 14px; border: 0; color: var(--navy); background: var(--gold); text-decoration: none; font-family: inherit; font-size: 11px; font-weight: 700; white-space: nowrap; cursor: pointer; transition: background .2s ease; }
+.header-book[hidden] { display: none; }
 .header-book:hover { background: var(--gold-light); }
 .mobile-menu-toggle { display: none; }
 
