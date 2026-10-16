@@ -188,10 +188,13 @@ h2:lang(hi) { font-family: var(--hindi); font-size: clamp(30px, 3vw, 40px); line
 .page-hero h1:lang(hi) { font-size: clamp(39px, 4.5vw, 55px); }
 .page-hero-inner > p { max-width: 565px; margin: 21px 0 0; color: #c6cad0; font-size: 14px; line-height: 1.9; }
 .page-hero-compact { padding: 71px 0 73px; }
-.biography-grid { display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; gap: clamp(45px, 9vw, 108px); }
-.portrait-large { max-width: 435px; }
-.portrait-large .portrait-art { min-height: 0; aspect-ratio: 922 / 768; }
-.portrait-large .portrait-photo { object-fit: contain; object-position: center; }
+.biography-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; gap: clamp(35px, 6vw, 76px); }
+.portrait-large { display: grid; grid-template-rows: minmax(0, 1fr) auto; align-self: stretch; max-width: none; }
+.portrait-large .portrait-art { min-height: 0; height: 100%; aspect-ratio: auto; transform: none; }
+.portrait-large .portrait-photo { object-fit: cover; object-position: center; transform: none; }
+.portrait-large:hover { transform: none; }
+.portrait-large:hover .portrait-art { transform: none; }
+.portrait-large .portrait-caption { margin: 0; padding: 13px 16px; border-top: 2px solid var(--gold); color: var(--paper); background: rgba(16,28,54,.94); font-size: 21px; letter-spacing: .035em; text-shadow: none; transform: none; }
 .biography-copy .section-kicker { margin-bottom: 24px; }
 .biography-copy h2 { font-size: 43px; }
 .biography-copy > p { font-size: 13px; }
@@ -352,6 +355,8 @@ h2:lang(hi) { font-family: var(--hindi); font-size: clamp(30px, 3vw, 40px); line
   h2:lang(hi) { font-size: 31px; }
   .about-grid, .biography-grid { grid-template-columns: 1fr; gap: 45px; }
   .portrait-frame { width: min(100%, 390px); margin: 0 auto; }
+  .portrait-large { width: min(100%, 480px); height: auto; grid-template-rows: auto auto; }
+  .portrait-large .portrait-art { height: auto; min-height: 0; aspect-ratio: 922 / 768; }
   .portrait-art { min-height: 330px; }
   .about-copy .section-kicker { margin-bottom: 17px; }
   .section-heading h2 { font-size: 37px; }

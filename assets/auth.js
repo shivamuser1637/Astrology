@@ -232,7 +232,7 @@
       const bubble = makeElement("article", "chat-message" + (ownMessage ? " chat-message-own" : ""));
       bubble.appendChild(makeElement("strong", "chat-message-sender", ownMessage
         ? chatLanguage("You", "आप")
-        : (admin ? chatLanguage("Customer", "ग्राहक") : chatLanguage("Astro Alok Tripathi", "ज्योतिषी आलोक त्रिपाठी"))));
+        : (admin ? chatLanguage("Customer", "ग्राहक") : chatLanguage("Astrologer Alok Ranjan Tripathi", "ज्योतिषी आलोक रंजन त्रिपाठी"))));
       bubble.appendChild(makeElement("p", "chat-message-text", message.message));
       bubble.appendChild(makeElement("time", "chat-message-time", accountDate(message.created_at)));
       container.appendChild(bubble);

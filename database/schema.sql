@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS public.consultation_enquiries (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     CONSTRAINT consultation_details_match_enquiry CHECK (
         (enquiry_type = 'consultation'
-            AND consultation_type IN ('Kundli Analysis', 'Vedic Astrology Consultation')
+            AND consultation_type IN ('Kundli Analysis', 'Vedic Astrology Consultation', 'Spiritual Guidance', 'Vastu Consultation')
             AND preferred_date IS NOT NULL
             AND preferred_time IS NOT NULL)
         OR
@@ -59,6 +59,22 @@ CREATE TABLE IF NOT EXISTS public.consultation_enquiries (
             AND preferred_time IS NULL)
     )
 );
+
+ALTER TABLE public.consultation_enquiries
+    DROP CONSTRAINT IF EXISTS consultation_details_match_enquiry;
+
+ALTER TABLE public.consultation_enquiries
+    ADD CONSTRAINT consultation_details_match_enquiry CHECK (
+        (enquiry_type = 'consultation'
+            AND consultation_type IN ('Kundli Analysis', 'Vedic Astrology Consultation', 'Spiritual Guidance', 'Vastu Consultation')
+            AND preferred_date IS NOT NULL
+            AND preferred_time IS NOT NULL)
+        OR
+        (enquiry_type = 'contact'
+            AND consultation_type IS NULL
+            AND preferred_date IS NULL
+            AND preferred_time IS NULL)
+    );
 
 ALTER TABLE public.consultation_enquiries
     ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES public.astro_users(id) ON DELETE SET NULL;

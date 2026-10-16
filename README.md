@@ -63,8 +63,24 @@ Run the backend and account tests with `npm test`.
 
 Suggested domain options, subject to availability: `astroaloktripathi.com`, `astroaloktripathi.in`, and `aloktripathiastro.com`.
 
-## Deploy
+## Deploy to Render
 
-The site now requires a Node.js host and PostgreSQL; static-only hosting does not support the forms, accounts or article editor. Deploy the files and `assets` directory with the Node server, configure the `PG*` environment variables and `NODE_ENV=production`, and provide HTTPS at the host or its reverse proxy. Keep the database private and do not commit `.env`. Configure the selected domain and set `siteUrl` above.
+This repository includes `render.yaml` for a Render Node.js Web Service and PostgreSQL database. The service uses `npm ci` to install dependencies and `npm start` to run `node server.cjs`. Render supplies `PORT`; the server binds to `0.0.0.0`. The WebSocket client uses the page's HTTPS scheme to connect over WSS, and the server validates the public request origin, so same-origin chat works through Render's HTTPS proxy.
 
-Consultation forms validate in the browser and server, save an enquiry to PostgreSQL, and then open an encoded WhatsApp draft. The visitor must review and send the message in WhatsApp; saving or submitting an enquiry does not confirm an appointment. Configure production HTTPS and a host/reverse proxy that supports WebSockets for live chat. Use a trusted production email provider before enabling email verification or password recovery, and review the privacy policy and retention practices before launch.
+To deploy:
+
+1. Push this project, including `render.yaml`, to the GitHub branch you want Render to deploy.
+2. Sign in to Render and open the Dashboard. Click **New +** → **Blueprint**.
+3. Connect GitHub if prompted, then select the `Astrology` repository and branch.
+4. Render reads `render.yaml` and shows the Web Service and PostgreSQL database it will create. Review the resources and click **Apply**.
+5. When prompted for `WHATSAPP_NUMBER`, enter the public WhatsApp number as digits only, including the country code. The current project number is `918319482309`. This value controls the `wa.me` destination and is public to website visitors; no WhatsApp API token is used by this project.
+6. Wait for the Blueprint deploy to finish. Open the Web Service's `onrender.com` URL and check the home page, consultation form, sign-in page, and signed-in chat.
+7. To create the administrator account, open the Web Service's **Shell** and run `node create-admin.cjs astrologer@example.com`, replacing the email with the astrologer's chosen sign-in email. Enter the password at the prompt.
+
+Render creates `DATABASE_URL` from the database's private connection string and sets `NODE_ENV=production`; `PORT` is supplied by Render automatically. Set `WHATSAPP_NUMBER` during Blueprint setup or later on the service's **Environment** page. No database credentials need to be copied into the repository. The database schema initializes when the server starts.
+
+The Blueprint currently selects Render's Free plans to avoid assuming a paid plan. Render's free PostgreSQL databases expire 30 days after creation and are intended for evaluation, not long-term production data. Before relying on customer accounts or enquiry data, change the database plan to a paid plan in `render.yaml` and sync the Blueprint. [Render's Free instance limits](https://render.com/docs/free)
+
+Consultation forms save enquiries to PostgreSQL and open a WhatsApp draft; the visitor must send it in WhatsApp. The project does not use WhatsApp API credentials. The Blogger archive continues to load from its existing public feed and needs no Render secret variables. Set `siteUrl` in `assets/site-config.js` after choosing a production domain if canonical and social metadata should use it.
+
+Use a trusted production email provider before enabling email verification or password recovery, and review the privacy policy and data-retention practices before launch.

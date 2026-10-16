@@ -89,7 +89,7 @@ function validateEnquiry(body) {
       ? null
       : "A contact message is required.";
   }
-  if (!["Kundli Analysis", "Vedic Astrology Consultation"].includes(body.consultationType)) {
+  if (!["Kundli Analysis", "Vedic Astrology Consultation", "Spiritual Guidance", "Vastu Consultation"].includes(body.consultationType)) {
     return "Choose a valid consultation type.";
   }
   if (typeof body.preferredDate !== "string"
@@ -613,6 +613,18 @@ function staticFileFor(pathname) {
   return filePath;
 }
 
+function publicWhatsAppNumber() {
+  const number = String(process.env.WHATSAPP_NUMBER || "918319482309").replace(/\D/g, "");
+  return /^\d{7,15}$/.test(number) ? number : "918319482309";
+}
+
+function publicWhatsAppDisplayNumber() {
+  const number = publicWhatsAppNumber();
+  return number.startsWith("91") && number.length === 12
+    ? "+91 " + number.slice(2, 7) + " " + number.slice(7)
+    : "+" + number;
+}
+
 function createApplication(pool) {
   const webSocketServer = new WebSocketServer({ noServer: true, maxPayload: 16 * 1024 });
   const chatConnections = new Set();
@@ -651,7 +663,13 @@ function createApplication(pool) {
         response.end("Not found.");
         return;
       }
-      const content = await fs.promises.readFile(filePath);
+      let content = await fs.promises.readFile(filePath);
+      if ([".html", ".js"].includes(path.extname(filePath).toLowerCase())) {
+        const source = content.toString("utf8");
+        content = Buffer.from(source
+          .replaceAll("918319482309", publicWhatsAppNumber())
+          .replaceAll("+91 83194 82309", publicWhatsAppDisplayNumber()));
+      }
       response.writeHead(200, {
         "Content-Type": MIME_TYPES[path.extname(filePath).toLowerCase()],
         "Cache-Control": path.extname(filePath) === ".html" ? "no-cache" : "public, max-age=3600"
@@ -774,7 +792,9 @@ function createApplication(pool) {
 }
 
 async function start() {
-  const pool = new Pool();
+  const pool = new Pool(process.env.DATABASE_URL
+    ? { connectionString: process.env.DATABASE_URL }
+    : undefined);
   try {
     await pool.query("SELECT 1");
     const schema = await fs.promises.readFile(path.join(ROOT, "database", "schema.sql"), "utf8");
@@ -793,8 +813,8 @@ async function start() {
     throw new Error("PORT must be an integer between 1 and 65535.");
   }
   const server = createApplication(pool);
-  server.listen(port, () => {
-    console.log(`Astro Alok Tripathi website and enquiry API running at http://localhost:${port}`);
+  server.listen(port, "0.0.0.0", () => {
+    console.log(`Astro Alok Tripathi website and enquiry API listening on port ${port}`);
   });
   const shutdown = () => {
     server.close(() => pool.end().catch((error) => {
