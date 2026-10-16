@@ -23,18 +23,26 @@ async function verifyPassword(password, passwordHash) {
   return crypto.timingSafeEqual(expected, actual);
 }
 
-function validateCredentials(body) {
+function validateCredentials(body, options) {
   if (!body || typeof body !== "object" || Array.isArray(body)) {
     return "Enter a valid email address and password.";
   }
-  if (typeof body.email !== "string" || body.email.length > 254
-      || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) {
+  const loginName = typeof body.email === "string" ? body.email.trim() : "";
+  const isEmail = loginName.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginName);
+  if (!isEmail) {
     return "Enter a valid email address.";
   }
   if (typeof body.password !== "string"
       || Buffer.byteLength(body.password, "utf8") < PASSWORD_BYTES_MIN
       || Buffer.byteLength(body.password, "utf8") > PASSWORD_BYTES_MAX) {
     return "Use a password that is at least 12 characters long.";
+  }
+  if (options && options.requireName) {
+    for (const field of ["firstName", "lastName"]) {
+      if (typeof body[field] !== "string" || !body[field].trim() || body[field].trim().length > 80) {
+        return field === "firstName" ? "Enter your first name (up to 80 characters)." : "Enter your last name (up to 80 characters).";
+      }
+    }
   }
   return null;
 }

@@ -1,6 +1,6 @@
 # Astro Alok Tripathi
 
-A responsive, bilingual website for Vedic astrology and Kundli consultation enquiries. The frontend uses plain HTML, CSS and JavaScript. A small Node.js backend serves the site, validates and saves enquiries, manages customer/admin sign-in and connects to the PostgreSQL database named `Astrology`.
+A responsive, bilingual website for Vedic astrology and Kundli consultation enquiries. The frontend uses plain HTML, CSS and JavaScript. A small Node.js backend serves the site, validates and saves enquiries, manages customer sign-in and connects to the PostgreSQL database named `Astrology`.
 
 The owner's supplied transparent headshot PNG remains the logo in the shared header, footer, and browser favicon, and the portrait on the homepage and About page. A separate transparent full-length portrait appears on the right side of the homepage hero. The homepage includes a privacy-enhanced YouTube playlist embed for the owner's channel (`@alokranjan889`), with direct links to the channel. The Articles page loads public posts from the owner's Blogger archive and owner-created bilingual website articles. A signed-in customer and the astrologer can also chat privately in real time; text messages are stored in PostgreSQL. Signed-in customers can submit one public 1–5-star review, shown anonymously and published immediately with their consent. A slow animated celestial 3D background appears across pages and respects reduced-motion preferences.
 
@@ -40,16 +40,13 @@ Visit `http://localhost:8000`. Do not use a static-only server such as `python -
 
 Run the backend and account tests with `npm test`.
 
-## Accounts and article management
+## Accounts
 
-- Customers can create an account at `/signup.html`, sign in at `/login.html`, and see enquiries submitted while signed in at `/dashboard.html`. Customer sign-up does not grant admin access.
-- Email is currently a sign-in name only. Email verification and password-reset messages are not enabled until an email delivery provider is configured.
-- Create the astrologer's separate administrator account once, in an interactive terminal, with `npm run create-admin -- astrologer@example.com`. Enter the password at the hidden prompt; use a unique password of at least 12 characters. The command refuses to create another admin once one exists. Do not put the password in a command, source file or `.env`.
-- Only the astrologer admin can see all enquiries or create/edit/publish bilingual website articles. Admin article content is plain text. Published admin articles appear in the Website Articles section of `articles.html`; existing Blogger archive posts continue to load from the original blog feed.
-- To create or edit a website article, sign in as the astrologer admin and use the article editor in `/dashboard.html`. The separate **Write or manage articles** link on the Articles page opens Blogger and is only for maintaining the existing Blogger archive.
-- Enquiries submitted while signed out are saved for the astrologer but are not associated with a customer account. Sign in before submitting to see an enquiry in that customer's dashboard.
-- Signed-in customer accounts can start one-to-one, text-only chat with the astrologer from their dashboard. Chat requires separate consent, is stored in `public.astro_chat_messages`, and is delivered in real time over an authenticated same-origin WebSocket when participants are connected. It is not end-to-end encrypted and is not continuously monitored.
-- Signed-in customers can submit or update one 1–5-star written review at `feedback.html`. Reviews publish immediately after explicit consent. Public reviews display only as “Customer,” not with a name or email; the astrologer can remove them from the dashboard.
+- Customers can create an account at `/signup.html`, sign in at `/login.html`, and view their own enquiries at `/dashboard.html`.
+- Signup and sign-in create a persistent customer session. The header shows the account link and a **Log out** button while signed in. Successful signup and sign-in return to the home page.
+- There is no public astrologer account or astrologer sign-in. Public signup can only create customer accounts.
+- Email verification and password-reset messages are not enabled until an email delivery provider is configured.
+- Signed-in customers can start a one-to-one, text-only chat from their account and submit one anonymous public review. Reviews publish immediately after explicit consent.
 
 ## Configure before launch
 
@@ -59,13 +56,13 @@ Run the backend and account tests with `npm test`.
 4. Review the privacy policy and terms for the owner's actual practices and obtain appropriate legal review before launch.
 5. Confirm that WhatsApp number `+91 83194 82309` is correct and can receive enquiries.
 6. The Articles page depends on the public Blogger feed at `alokranjantripathi.in`; keep the blog public for the live archive to load. If the feed is unavailable, visitors can still open the original blog from the page.
-7. To maintain the existing Blogger archive, use **Write or manage articles** on the Articles page and sign in to the existing Google/Blogger owner account. Publish the post on Blogger for it to appear in the public archive; unpublished drafts stay private. The website does not collect Blogger passwords or publish posts directly. Website articles are created separately in the astrologer's admin dashboard.
+7. Publish posts on the original Blogger site; the public archive on this website reads from that blog feed.
 
 Suggested domain options, subject to availability: `astroaloktripathi.com`, `astroaloktripathi.in`, and `aloktripathiastro.com`.
 
 ## Deploy to Render
 
-This repository includes `render.yaml` for a Render Node.js Web Service and PostgreSQL database. The service uses `npm ci` to install dependencies and `npm start` to run `node server.cjs`. Render supplies `PORT`; the server binds to `0.0.0.0`. The WebSocket client uses the page's HTTPS scheme to connect over WSS, and the server validates the public request origin, so same-origin chat works through Render's HTTPS proxy.
+This repository includes `render.yaml` for a Render Node.js Web Service and PostgreSQL database. The service uses `npm ci` to install dependencies and runs `node server.cjs` with the environment variables configured in Render. Render supplies `PORT`; the server binds to `0.0.0.0`. The WebSocket client uses the page's HTTPS scheme to connect over WSS, and the server validates the public request origin, so same-origin chat works through Render's HTTPS proxy.
 
 To deploy:
 
@@ -75,7 +72,6 @@ To deploy:
 4. Render reads `render.yaml` and shows the Web Service and PostgreSQL database it will create. Review the resources and click **Apply**.
 5. When prompted for `WHATSAPP_NUMBER`, enter the public WhatsApp number as digits only, including the country code. The current project number is `918319482309`. This value controls the `wa.me` destination and is public to website visitors; no WhatsApp API token is used by this project.
 6. Wait for the Blueprint deploy to finish. Open the Web Service's `onrender.com` URL and check the home page, consultation form, sign-in page, and signed-in chat.
-7. To create the administrator account, open the Web Service's **Shell** and run `node create-admin.cjs astrologer@example.com`, replacing the email with the astrologer's chosen sign-in email. Enter the password at the prompt.
 
 Render creates `DATABASE_URL` from the database's private connection string and sets `NODE_ENV=production`; `PORT` is supplied by Render automatically. Set `WHATSAPP_NUMBER` during Blueprint setup or later on the service's **Environment** page. No database credentials need to be copied into the repository. The database schema initializes when the server starts.
 

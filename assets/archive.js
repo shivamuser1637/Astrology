@@ -15,6 +15,8 @@
   const list = document.getElementById("archive-list");
   if (!list) return;
 
+  const recentList = document.getElementById("recent-blog-posts");
+  const recentStatus = document.getElementById("recent-blog-status");
   const status = document.getElementById("archive-status");
   const search = document.getElementById("archive-search");
   const category = document.getElementById("archive-category");
@@ -256,6 +258,7 @@
     link.rel = "noopener noreferrer";
     link.textContent = localizedText("Open the original blog", "मूल ब्लॉग खोलें");
     list.replaceChildren(link);
+    if (recentStatus) recentStatus.textContent = "The latest posts could not be loaded. Please visit the original blog.";
   }
 
   search.addEventListener("input", function () {
@@ -277,7 +280,7 @@
 
   const script = document.createElement("script");
   const timeout = window.setTimeout(loadError, 15000);
-  script.src = FEED_URL;
+  script.src = FEED_URL + "&_=" + Date.now();
   script.async = true;
   script.onerror = function () {
     window.clearTimeout(timeout);
@@ -307,6 +310,13 @@
       option.textContent = name;
       category.appendChild(option);
     });
+    if (recentList) {
+      recentList.replaceChildren();
+      articles.slice(0, 3).forEach(function (article) {
+        recentList.appendChild(makeArticleCard(article));
+      });
+      if (recentStatus) recentStatus.textContent = "";
+    }
     render();
   };
   document.head.appendChild(script);

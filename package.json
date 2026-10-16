@@ -7,8 +7,7 @@
     "node": ">=20.6"
   },
   "scripts": {
-    "start": "node server.cjs",
-    "create-admin": "node --env-file=.env create-admin.cjs",
+    "start": "node --env-file=.env server.cjs",
     "test": "node --test"
   },
   "dependencies": {

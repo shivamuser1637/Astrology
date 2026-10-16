@@ -53,7 +53,7 @@ body:lang(hi) .brand-text small { font-family: var(--hindi); font-size: 11px; le
 .header-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 16px; }
 .language-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 8px 4px; color: #e9e2d5; background: transparent; border: 0; cursor: pointer; font-size: 11px; }
 .language-globe { color: var(--gold); font-size: 16px; }
-.header-book { display: inline-flex; align-items: center; gap: 13px; padding: 11px 14px; color: var(--navy); background: var(--gold); text-decoration: none; font-size: 11px; font-weight: 700; white-space: nowrap; transition: background .2s ease; }
+.header-book { display: inline-flex; align-items: center; gap: 13px; padding: 11px 14px; border: 0; color: var(--navy); background: var(--gold); text-decoration: none; font-family: inherit; font-size: 11px; font-weight: 700; white-space: nowrap; cursor: pointer; transition: background .2s ease; }
 .header-book:hover { background: var(--gold-light); }
 .mobile-menu-toggle { display: none; }
 
@@ -630,6 +630,17 @@ main { position: relative; z-index: 1; flex: 1 0 auto; }
 .account-form .account-switch { margin: 24px 0 0; color: var(--muted); text-align: center; }
 .account-switch a { color: #745b28; font-weight: 700; text-underline-offset: 4px; }
 .form-submit:disabled, .account-form button:disabled { opacity: .62; cursor: wait; }
+.customer-profile-card { max-width: 900px; margin: 0 auto 38px; padding: 30px; border: 1px solid rgba(198,165,98,.42); background: rgba(255,253,248,.96); box-shadow: 0 5px 0 rgba(143,119,70,.1), 0 15px 30px rgba(8,16,30,.08); }
+.customer-profile-card h2 { margin: 10px 0 20px; color: var(--navy); font-family: var(--serif); font-size: 31px; font-weight: 500; }
+.customer-profile-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 0 0 22px; }
+.customer-profile-fields > div { min-width: 0; padding: 14px 16px; border: 1px solid var(--line); background: #fff; }
+.customer-profile-fields span { display: block; margin-bottom: 7px; color: var(--muted); font-size: 11px; }
+.customer-profile-fields strong { display: block; color: var(--navy); font-size: 14px; overflow-wrap: anywhere; }
+.password-toggle { margin: 0 0 16px; cursor: pointer; }
+.password-change-form { max-width: 720px; margin: 0 0 22px; }
+.password-change-form[hidden] { display: none; }
+.password-change-success { color: #176448; font-size: 14px; }
+.account-profile-card { margin: 0 0 38px; }
 .account-dashboard[hidden] { display: none; }
 .account-dashboard .section-heading { max-width: 720px; margin-bottom: 35px; }
 .account-data-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 25px 0; }
@@ -688,6 +699,8 @@ main { position: relative; z-index: 1; flex: 1 0 auto; }
   .archive-pagination { gap: 12px; }
   .video-grid { grid-template-columns: 1fr; gap: 24px; }
   .account-data-list { grid-template-columns: 1fr; }
+  .customer-profile-card { padding: 22px; }
+  .customer-profile-fields { grid-template-columns: 1fr; gap: 11px; }
   .account-record { padding: 17px; }
   .chat-layout { grid-template-columns: 1fr; }
   .chat-room { min-height: 380px; padding: 13px; }

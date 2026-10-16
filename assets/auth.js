@@ -55,9 +55,16 @@
         await request(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: data.get("email"), password: data.get("password") })
+          body: JSON.stringify({
+            email: data.get("email"),
+            password: data.get("password"),
+            ...(endpoint === "/api/signup" ? {
+              firstName: String(data.get("firstName") || "").trim(),
+              lastName: String(data.get("lastName") || "").trim()
+            } : {})
+          })
         });
-        window.location.assign("dashboard.html");
+        window.location.assign("index.html");
       } catch (requestError) {
         authError(form, requestError.message);
       } finally {
@@ -77,6 +84,78 @@
     if (!value) return "—";
     const date = new Date(value);
     return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleString(language() === "hi" ? "hi-IN" : "en-IN");
+  }
+
+  function profileDate(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    return new Intl.DateTimeFormat(language() === "hi" ? "hi-IN" : "en-IN", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    }).format(date);
+  }
+
+  function renderCustomerProfile(user) {
+    const name = [user.firstName, user.lastName].filter(Boolean).join(" ");
+    ["dashboard"].forEach(function (location) {
+      const profileName = document.getElementById(location + "-profile-name");
+      const email = document.getElementById(location + "-profile-email");
+      const since = document.getElementById(location + "-profile-since");
+      if (profileName) profileName.textContent = name;
+      if (email) email.textContent = user.email;
+      if (since) since.textContent = profileDate(user.createdAt);
+    });
+  }
+
+  function setupPasswordChange() {
+    document.querySelectorAll("[data-password-toggle]").forEach(function (toggle) {
+      toggle.addEventListener("click", function () {
+        const form = document.querySelector("[data-password-form]");
+        if (!form) return;
+        form.hidden = !form.hidden;
+        toggle.setAttribute("aria-expanded", String(!form.hidden));
+        if (!form.hidden) form.querySelector("input").focus();
+      });
+    });
+    document.querySelectorAll("[data-password-form]").forEach(function (form) {
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const error = form.querySelector("[data-password-error]");
+        const success = form.querySelector("[data-password-success]");
+        error.hidden = true;
+        success.hidden = true;
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        const data = new FormData(form);
+        if (data.get("newPassword") !== data.get("confirmPassword")) {
+          setError(error, "New passwords do not match.");
+          return;
+        }
+        const submit = form.querySelector('[type="submit"]');
+        submit.disabled = true;
+        try {
+          await request("/api/password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              currentPassword: data.get("currentPassword"),
+              newPassword: data.get("newPassword"),
+              confirmPassword: data.get("confirmPassword")
+            })
+          });
+          form.reset();
+          success.textContent = "Password changed. You can now sign in with your new password.";
+          success.hidden = false;
+        } catch (requestError) {
+          setError(error, requestError.message);
+        } finally {
+          submit.disabled = false;
+        }
+      });
+    });
   }
 
   function renderEnquiries(container, enquiries, admin) {
@@ -575,6 +654,11 @@
       window.location.replace("login.html");
       return;
     }
+    if (result.user.role !== "customer") {
+      window.location.replace("index.html");
+      return;
+    }
+    renderCustomerProfile(result.user);
     identity.textContent = (language() === "hi" ? "साइन इन: " : "Signed in as ") + result.user.email;
     const admin = result.user.role === "admin";
     document.getElementById(admin ? "admin-dashboard" : "customer-dashboard").hidden = false;
@@ -600,12 +684,48 @@
     document.getElementById("logout-button").addEventListener("click", async function () {
       try {
         await request("/api/logout", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
-        window.location.replace("login.html");
+        window.location.replace("index.html");
       } catch (error) {
         const message = document.getElementById("admin-error") || document.getElementById("customer-enquiries");
         setError(message, error.message);
       }
     });
+  }
+
+  async function setupAccountNavigation() {
+    const accountLink = document.querySelector("[data-account-link]");
+    const logoutButton = document.querySelector("[data-global-logout]");
+    if (!accountLink || !logoutButton) return;
+    try {
+      const result = await request("/api/me");
+      if (!result.user || result.user.role !== "customer") return;
+      renderCustomerProfile(result.user);
+      accountLink.href = "dashboard.html";
+      accountLink.innerHTML = '<span data-en="My account" data-hi="मेरा खाता">' + (language() === "hi" ? "मेरा खाता" : "My account") + '</span>';
+      logoutButton.hidden = false;
+      logoutButton.addEventListener("click", async function () {
+        logoutButton.disabled = true;
+        try {
+          await request("/api/logout", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+          window.location.replace("index.html");
+        } catch (error) {
+          logoutButton.disabled = false;
+          window.alert(error.message);
+        }
+      });
+    } catch {
+      // Public pages remain available when account services are offline.
+    }
+  }
+
+  async function redirectSignedInAuthPage() {
+    if (!document.getElementById("login-form") && !document.getElementById("signup-form")) return;
+    try {
+      const result = await request("/api/me");
+      if (result.user && result.user.role === "customer") window.location.replace("index.html");
+    } catch {
+      // The form remains usable; submission will show the account service error.
+    }
   }
 
   async function renderPublicArticles() {
@@ -648,6 +768,9 @@
 
   configureAuthForm(document.getElementById("login-form"), "/api/login");
   configureAuthForm(document.getElementById("signup-form"), "/api/signup");
+  setupPasswordChange();
+  setupAccountNavigation();
+  redirectSignedInAuthPage();
   if (document.getElementById("feedback-form")) {
     setupFeedbackPage().catch(function (error) {
       const status = document.getElementById("feedback-form-error");

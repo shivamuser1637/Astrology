@@ -13,7 +13,7 @@ const MAX_BODY_BYTES = 128 * 1024;
 const MAX_CHAT_MESSAGE_LENGTH = 2000;
 const CHAT_RATE_WINDOW_MS = 60 * 1000;
 const CHAT_RATE_MAX_MESSAGES = 30;
-const SESSION_DAYS = 7;
+const SESSION_DAYS = 3650;
 const SESSION_COOKIE = "astro_session";
 const RATE_WINDOW_MS = 15 * 60 * 1000;
 const RATE_MAX_ATTEMPTS = 10;
@@ -146,10 +146,10 @@ async function currentUser(request, pool) {
   const token = cookieValue(request, SESSION_COOKIE);
   if (!/^[a-f0-9]{64}$/.test(token)) return null;
   const result = await pool.query(
-    `SELECT u.id, u.email, u.role
+    `SELECT u.id, u.first_name, u.last_name, u.email, u.role, u.created_at
      FROM public.login_sessions s
      JOIN public.astro_users u ON u.id = s.user_id
-     WHERE s.token_hash = $1 AND s.expires_at > NOW()`,
+     WHERE s.token_hash = $1 AND s.expires_at > NOW() AND u.role = 'customer'`,
     [hashSessionToken(token)]
   );
   return result.rows[0] || null;
@@ -199,7 +199,7 @@ async function createLoginSession(client, userId) {
   const token = crypto.randomBytes(32).toString("hex");
   const tokenHash = hashSessionToken(token);
   await client.query(
-    "INSERT INTO public.login_sessions (token_hash, user_id, expires_at) VALUES ($1, $2, NOW() + INTERVAL '7 days')",
+    "INSERT INTO public.login_sessions (token_hash, user_id, expires_at) VALUES ($1, $2, NOW() + INTERVAL '10 years')",
     [tokenHash, userId]
   );
   return token;
@@ -230,13 +230,21 @@ async function handleApi(request, response, requestUrl, pool, chatConnections) {
   }
   if (pathname === "/api/me" && method === "GET") {
     const user = await currentUser(request, pool);
-    sendJson(response, 200, { user: user ? { id: String(user.id), email: user.email, role: user.role } : null });
+    if (user) {
+      const token = cookieValue(request, SESSION_COOKIE);
+      await pool.query(
+        "UPDATE public.login_sessions SET expires_at = NOW() + INTERVAL '10 years' WHERE token_hash = $1",
+        [hashSessionToken(token)]
+      );
+      setSessionCookie(response, token);
+    }
+    sendJson(response, 200, { user: user ? { id: String(user.id), firstName: user.first_name, lastName: user.last_name, email: user.email, role: user.role, createdAt: user.created_at } : null });
     return;
   }
   if ((pathname === "/api/signup" || pathname === "/api/login") && method === "POST") {
     if (rateLimited(request, pathname, response)) return;
     const body = await readJson(request);
-    const validationError = validateCredentials(body);
+    const validationError = validateCredentials(body, { requireName: pathname === "/api/signup" });
     if (validationError) {
       sendJson(response, 400, { error: validationError });
       return;
@@ -248,13 +256,13 @@ async function handleApi(request, response, requestUrl, pool, chatConnections) {
         await client.query("BEGIN");
         const passwordHash = await hashPassword(body.password);
         const inserted = await client.query(
-          "INSERT INTO public.astro_users (email, password_hash, role) VALUES ($1, $2, 'customer') RETURNING id, email, role",
-          [email, passwordHash]
+          "INSERT INTO public.astro_users (first_name, last_name, email, password_hash, role) VALUES ($1, $2, $3, $4, 'customer') RETURNING id, first_name, last_name, email, role",
+          [body.firstName.trim(), body.lastName.trim(), email, passwordHash]
         );
         const token = await createLoginSession(client, inserted.rows[0].id);
         await client.query("COMMIT");
         setSessionCookie(response, token);
-        sendJson(response, 201, { user: { id: String(inserted.rows[0].id), email: inserted.rows[0].email, role: inserted.rows[0].role } });
+        sendJson(response, 201, { user: { id: String(inserted.rows[0].id), firstName: inserted.rows[0].first_name, lastName: inserted.rows[0].last_name, email: inserted.rows[0].email, role: inserted.rows[0].role } });
       } catch (error) {
         await client.query("ROLLBACK");
         if (error.code === "23505") {
@@ -268,7 +276,7 @@ async function handleApi(request, response, requestUrl, pool, chatConnections) {
       return;
     }
     const result = await pool.query(
-      "SELECT id, email, role, password_hash FROM public.astro_users WHERE email = $1",
+      "SELECT id, email, role, password_hash FROM public.astro_users WHERE email = $1 AND role = 'customer'",
       [email]
     );
     const user = result.rows[0];
@@ -285,6 +293,41 @@ async function handleApi(request, response, requestUrl, pool, chatConnections) {
     } finally {
       client.release();
     }
+    return;
+  }
+  if (pathname === "/api/password" && method === "POST") {
+    if (rateLimited(request, pathname, response)) return;
+    const user = await currentUser(request, pool);
+    if (!user) {
+      sendJson(response, 401, { error: "Sign in to change your password." });
+      return;
+    }
+    const body = await readJson(request);
+    const validationError = validateCredentials({ email: user.email, password: body && body.newPassword });
+    if (validationError) {
+      sendJson(response, 400, { error: validationError });
+      return;
+    }
+    if (!body || typeof body.currentPassword !== "string" || typeof body.confirmPassword !== "string") {
+      sendJson(response, 400, { error: "Enter your current password and confirm the new password." });
+      return;
+    }
+    if (body.newPassword !== body.confirmPassword) {
+      sendJson(response, 400, { error: "New passwords do not match." });
+      return;
+    }
+    const account = await pool.query(
+      "SELECT password_hash FROM public.astro_users WHERE id = $1 AND role = 'customer'",
+      [user.id]
+    );
+    const matches = account.rows[0] && await verifyPassword(body.currentPassword, account.rows[0].password_hash);
+    if (!matches) {
+      sendJson(response, 401, { error: "Current password is incorrect." });
+      return;
+    }
+    const passwordHash = await hashPassword(body.newPassword);
+    await pool.query("UPDATE public.astro_users SET password_hash = $1 WHERE id = $2", [passwordHash, user.id]);
+    sendJson(response, 200, { ok: true });
     return;
   }
   if (pathname === "/api/logout" && method === "POST") {
@@ -509,7 +552,7 @@ async function handleApi(request, response, requestUrl, pool, chatConnections) {
   if (pathname.startsWith("/api/admin/")) {
     const user = await currentUser(request, pool);
     if (!user || user.role !== "admin") {
-      sendJson(response, 403, { error: "An astrologer administrator account is required." });
+      sendJson(response, 403, { error: "This account does not have access to this resource." });
       return;
     }
     if (pathname === "/api/admin/articles" && method === "GET") {
