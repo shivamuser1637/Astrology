@@ -36,6 +36,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .section-pad { padding: 112px 0; }
 
 /* Shared navigation */
+.announcement-bar { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; min-height: 42px; color: #394153; background: #fffdf8; border-bottom: 1px solid rgba(198,165,98,.5); box-shadow: 0 2px 8px rgba(16,28,54,.08); }
+.announcement-viewport { min-width: 0; flex: 1 1 auto; overflow: hidden; }
+.announcement-track { display: flex; width: max-content; animation: announcement-scroll 32s linear infinite; }
+.announcement-group { display: flex; flex: 0 0 max(100vw, 680px); align-items: center; justify-content: space-around; gap: 28px; padding: 0 24px; white-space: nowrap; }
+.announcement-group span { color: #535b68; font-size: 12px; font-weight: 600; }
+.announcement-bar:hover .announcement-track, .announcement-bar:focus-within .announcement-track { animation-play-state: paused; }
+.announcement-cta { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; gap: 9px; min-height: 34px; margin: 4px 18px 4px 8px; padding: 0 15px; color: #fffdf8; background: #a73532; border: 1px solid #8e2928; border-radius: 20px; box-shadow: 0 3px 8px rgba(120,35,35,.2); font-size: 12px; font-weight: 700; line-height: 1; text-decoration: none; white-space: nowrap; transition: background .2s ease, transform .2s ease; }
+.announcement-cta:hover { background: #872724; transform: translateY(-1px); }
+@keyframes announcement-scroll { to { transform: translateX(-50%); } }
 .site-header { position: relative; z-index: 10; color: var(--paper); background: var(--navy); border-bottom: 1px solid rgba(198,165,98,.18); }
 .header-inner { min-height: 86px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .brand { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 11px; color: var(--gold-light); text-decoration: none; }
@@ -783,6 +792,10 @@ main { position: relative; z-index: 1; flex: 1 0 auto; }
 }
 
 @media (max-width: 760px) {
+  .announcement-group span:nth-child(2) { display: none; }
+  .announcement-group { justify-content: flex-start; padding-left: 16px; }
+  .announcement-group span { font-size: 11px; }
+  .announcement-cta { gap: 5px; min-height: 32px; margin-right: 10px; margin-left: 6px; padding: 0 10px; font-size: 11px; }
   main { perspective: 1100px; }
   .hero-copy { transform: translateZ(12px); }
   .art-disc { transform: translateZ(18px) rotateX(5deg) rotateY(-4deg); }
