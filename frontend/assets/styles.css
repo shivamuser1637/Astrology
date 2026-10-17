@@ -257,6 +257,12 @@ h2:lang(hi) { font-family: var(--hindi); font-size: clamp(30px, 3vw, 40px); line
 .form-error { margin: 15px 0 0; padding: 10px 12px; color: #8b3c32; border-left: 2px solid #ad7159; background: #fcf2ee; font-size: 11px; line-height: 1.7; }
 .form-error[hidden] { display: none; }
 .form-error.form-success { color: #365b46; border-left-color: #688b6b; background: #eff6ef; }
+.feedback-thank-you { width: min(92vw, 480px); padding: 0; border: 1px solid rgba(198,165,98,.7); background: transparent; box-shadow: 0 18px 55px rgba(8,16,30,.35); }
+.feedback-thank-you::backdrop { background: rgba(8,16,30,.68); backdrop-filter: blur(3px); }
+.feedback-thank-you-card { padding: 34px; color: var(--muted); background: #fffdf8; text-align: center; }
+.feedback-thank-you-card .form-heading-mark { margin: 0 auto 12px; }
+.feedback-thank-you-card h2 { margin: 0 0 12px; color: var(--navy); font-family: var(--serif); font-size: 30px; font-weight: 500; }
+.feedback-thank-you-card p { margin: 0 0 22px; }
 .contact-section { background: var(--ivory); }
 .contact-grid { display: grid; grid-template-columns: .88fr 1.12fr; align-items: start; gap: clamp(48px, 8vw, 94px); }
 .contact-copy .section-kicker { margin-bottom: 21px; }
@@ -687,6 +693,58 @@ main { position: relative; z-index: 1; flex: 1 0 auto; }
 .feedback-disclosure { margin: 24px auto 0; max-width: 760px; color: var(--muted); font-size: 12px; text-align: center; }
 .feedback-login-prompt { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
 .feedback-login-prompt p { width: 100%; margin: 0; }
+
+/* Homepage experience and consultation overview */
+.experience-section { color: var(--ink); background: linear-gradient(180deg, rgba(248,245,237,.78), rgba(255,253,248,.86)); }
+.experience-heading { max-width: 760px; margin: 0 auto; text-align: center; }
+.experience-heading .section-kicker { justify-content: center; }
+.experience-heading h2 { margin: 19px 0 14px; color: var(--navy); font-family: var(--serif); font-size: clamp(36px, 4vw, 52px); font-weight: 400; line-height: 1.17; }
+.experience-heading h2:lang(hi) { font-family: var(--hindi); font-size: clamp(30px, 3vw, 40px); line-height: 1.5; }
+.experience-heading h2 em { color: #92753d; }
+.experience-heading > p { max-width: 660px; margin: 0 auto; color: #5b6472; font-size: 13px; line-height: 1.9; }
+.experience-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 48px 0 82px; border-top: 1px solid rgba(198,165,98,.35); border-bottom: 1px solid rgba(198,165,98,.35); }
+.experience-facts > div { display: grid; min-height: 118px; align-content: center; justify-items: center; gap: 7px; padding: 18px 10px; text-align: center; }
+.experience-facts > div + div { border-left: 1px solid rgba(198,165,98,.3); }
+.experience-facts strong { color: var(--navy); font-family: var(--serif); font-size: clamp(32px, 3.5vw, 43px); font-weight: 500; }
+.experience-facts span { color: #707887; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.experience-services-heading { margin: 0 auto 30px; text-align: center; }
+.experience-ornament { display: block; margin-bottom: 8px; color: var(--gold); font-size: 20px; }
+.experience-services-heading h3 { margin: 0 0 7px; color: var(--navy); font-family: var(--serif); font-size: clamp(25px, 3vw, 34px); font-weight: 400; }
+.experience-services-heading p { margin: 0; color: #6c7480; font-size: 12px; }
+.experience-services { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.experience-card { min-width: 0; padding: 24px 21px; border: 1px solid rgba(198,165,98,.32); background: rgba(255,253,248,.88); box-shadow: 0 4px 0 rgba(143,119,70,.08), 0 12px 24px rgba(8,16,30,.055); text-align: center; transition: transform .24s ease, box-shadow .24s ease; }
+.experience-card:hover { transform: translateY(-4px); box-shadow: 0 6px 0 rgba(143,119,70,.1), 0 17px 28px rgba(8,16,30,.09); }
+.experience-card-mark { display: grid; width: 54px; height: 54px; place-items: center; margin: 0 auto 15px; color: #8b6e35; border: 1px solid rgba(198,165,98,.42); border-radius: 50%; background: #fbf8f0; font-size: 24px; }
+.experience-card h4 { margin: 0 0 9px; color: var(--navy); font-size: 14px; font-weight: 700; }
+.experience-card p { margin: 0; color: #626b79; font-size: 11px; line-height: 1.8; }
+.experience-cta { display: grid; justify-items: center; gap: 11px; margin-top: 32px; }
+.experience-cta p { margin: 0; color: #7a818c; font-size: 10px; text-align: center; }
+.pooja-preview { background: rgba(16,28,54,.68); }
+.pooja-preview-heading h2, .pooja-preview-heading > p { color: #f6f2e9; }
+.pooja-preview-heading h2 em { color: var(--gold-light); }
+.pooja-preview-heading > p { color: #c5ccd7; }
+.pooja-preview-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 40px; }
+.pooja-preview-card { display: flex; min-height: 104px; align-items: center; gap: 17px; padding: 20px 22px; border: 1px solid rgba(198,165,98,.28); background: rgba(255,253,248,.07); }
+.pooja-preview-card > span { display: grid; flex: 0 0 46px; width: 46px; height: 46px; place-items: center; color: var(--gold-light); border: 1px solid rgba(198,165,98,.45); border-radius: 50%; font-size: 22px; }
+.pooja-preview-card h3 { margin: 0; color: #f6f2e9; font-size: 14px; font-weight: 600; line-height: 1.6; }
+.pooja-list { display: grid; gap: 9px; margin: 24px 0; padding: 0; list-style: none; }
+.pooja-list li { padding: 10px 13px; color: #364153; border-left: 2px solid var(--gold); background: rgba(255,253,248,.62); font-size: 12px; }
+.pooja-booking-section .booking-layout { grid-template-columns: .72fr 1.28fr; }
+@media (max-width: 760px) {
+  .experience-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 34px 0 56px; }
+  .experience-facts > div:nth-child(3) { border-left: 0; }
+  .experience-facts > div:nth-child(n+3) { border-top: 1px solid rgba(198,165,98,.3); }
+  .experience-services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .experience-card { padding: 21px 15px; }
+  .pooja-preview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .pooja-preview-card { min-height: 94px; gap: 11px; padding: 14px; }
+  .pooja-preview-card > span { flex-basis: 39px; width: 39px; height: 39px; font-size: 18px; }
+}
+@media (max-width: 420px) {
+  .experience-services { grid-template-columns: 1fr; }
+  .experience-heading h2 { font-size: 33px; }
+  .pooja-preview-grid { grid-template-columns: 1fr; }
+}
 
 @media (max-width: 760px) {
   .archive-heading { align-items: start; flex-direction: column; }

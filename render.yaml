@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     buildCommand: npm ci
-    startCommand: node server.cjs
+    startCommand: node backend/server.cjs
     envVars:
       - key: NODE_ENV
         value: production

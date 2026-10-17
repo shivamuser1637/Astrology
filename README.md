@@ -2,6 +2,13 @@
 
 A responsive, bilingual website for Vedic astrology and Kundli consultation enquiries. The frontend uses plain HTML, CSS and JavaScript. A small Node.js backend serves the site, validates and saves enquiries, manages customer sign-in and connects to the PostgreSQL database named `Astrology`.
 
+## Project folders
+
+- `frontend/` contains the website pages and `frontend/assets/` contains CSS, browser JavaScript, and images.
+- `backend/` contains the Node.js server, authentication code, and backend tests in `backend/test/`.
+- `database/` contains the PostgreSQL schema and database scripts.
+- `package.json`, `.env`, and `render.yaml` stay in the project root as development and deployment configuration.
+
 The owner's supplied transparent headshot PNG remains the logo in the shared header, footer, and browser favicon, and the portrait on the homepage and About page. A separate transparent full-length portrait appears on the right side of the homepage hero. The homepage includes a privacy-enhanced YouTube playlist embed for the owner's channel (`@alokranjan889`), with direct links to the channel. The Articles page loads public posts from the owner's Blogger archive and owner-created bilingual website articles. A signed-in customer and the astrologer can also chat privately in real time; text messages are stored in PostgreSQL. Signed-in customers can submit one public 1–5-star review, shown anonymously and published immediately with their consent. A slow animated celestial 3D background appears across pages and respects reduced-motion preferences.
 
 ## Requirements
@@ -50,8 +57,8 @@ Run the backend and account tests with `npm test`.
 
 ## Configure before launch
 
-1. In `assets/site-config.js`, set `siteUrl` to the final HTTPS origin (for example, `https://astroaloktripathi.in`) to enable canonical and social URL metadata. Leave it empty until the domain is selected.
-2. The supplied transparent headshot PNG is used as the logo and on the homepage/About page. The separate supplied full-length portrait `assets/alok-tripathi-standing.png` appears in the homepage hero. Both are displayed with transparent backgrounds; keep these approved images unchanged unless the owner supplies replacements.
+1. In `frontend/assets/site-config.js`, set `siteUrl` to the final HTTPS origin (for example, `https://astroaloktripathi.in`) to enable canonical and social URL metadata. Leave it empty until the domain is selected.
+2. The supplied transparent headshot PNG is used as the logo and on the homepage/About page. The separate supplied full-length portrait `frontend/assets/alok-tripathi-standing.png` appears in the homepage hero. Both are displayed with transparent backgrounds; keep these approved images unchanged unless the owner supplies replacements.
 3. Add verified biography and professional background details where indicated. Add the confirmed business location if it should be public. No address, credentials, testimonials, fees, or office hours are assumed.
 4. Review the privacy policy and terms for the owner's actual practices and obtain appropriate legal review before launch.
 5. Confirm that WhatsApp number `+91 83194 82309` is correct and can receive enquiries.
@@ -62,7 +69,7 @@ Suggested domain options, subject to availability: `astroaloktripathi.com`, `ast
 
 ## Deploy to Render
 
-This repository includes `render.yaml` for a Render Node.js Web Service and PostgreSQL database. The service uses `npm ci` to install dependencies and runs `node server.cjs` with the environment variables configured in Render. Render supplies `PORT`; the server binds to `0.0.0.0`. The WebSocket client uses the page's HTTPS scheme to connect over WSS, and the server validates the public request origin, so same-origin chat works through Render's HTTPS proxy.
+This repository includes `render.yaml` for a Render Node.js Web Service and PostgreSQL database. The service uses `npm ci` to install dependencies and runs `node backend/server.cjs` with the environment variables configured in Render. Render supplies `PORT`; the server binds to `0.0.0.0`. The WebSocket client uses the page's HTTPS scheme to connect over WSS, and the server validates the public request origin, so same-origin chat works through Render's HTTPS proxy.
 
 To deploy:
 
@@ -77,6 +84,6 @@ Render creates `DATABASE_URL` from the database's private connection string and 
 
 The Blueprint currently selects Render's Free plans to avoid assuming a paid plan. Render's free PostgreSQL databases expire 30 days after creation and are intended for evaluation, not long-term production data. Before relying on customer accounts or enquiry data, change the database plan to a paid plan in `render.yaml` and sync the Blueprint. [Render's Free instance limits](https://render.com/docs/free)
 
-Consultation forms save enquiries to PostgreSQL and open a WhatsApp draft; the visitor must send it in WhatsApp. The project does not use WhatsApp API credentials. The Blogger archive continues to load from its existing public feed and needs no Render secret variables. Set `siteUrl` in `assets/site-config.js` after choosing a production domain if canonical and social metadata should use it.
+Consultation forms save enquiries to PostgreSQL and open a WhatsApp draft; the visitor must send it in WhatsApp. The project does not use WhatsApp API credentials. The Blogger archive continues to load from its existing public feed and needs no Render secret variables. Set `siteUrl` in `frontend/assets/site-config.js` after choosing a production domain if canonical and social metadata should use it.
 
 Use a trusted production email provider before enabling email verification or password recovery, and review the privacy policy and data-retention practices before launch.

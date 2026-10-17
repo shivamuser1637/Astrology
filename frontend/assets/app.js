@@ -12,6 +12,7 @@
     "about.html": { en: "About", hi: "परिचय" },
     "services.html": { en: "Services", hi: "सेवाएँ" },
     "booking.html": { en: "Book a consultation", hi: "परामर्श अनुरोध" },
+    "pooja.html": { en: "Book a pooja", hi: "पूजा अनुरोध" },
     "login.html": { en: "Sign in", hi: "साइन इन" },
     "signup.html": { en: "Create an account", hi: "खाता बनाएँ" },
     "dashboard.html": { en: "My account", hi: "मेरा खाता" },
@@ -32,6 +33,7 @@
       { href: "about.html", title: pageTitles["about.html"] },
       { href: "services.html", title: pageTitles["services.html"] },
       { href: "booking.html", title: pageTitles["booking.html"] },
+      { href: "pooja.html", title: pageTitles["pooja.html"] },
       { href: "contact.html", title: pageTitles["contact.html"] },
       { href: "feedback.html", title: pageTitles["feedback.html"] },
       { href: "index.html#videos", title: { en: "Videos", hi: "वीडियो" } },
@@ -53,7 +55,7 @@
     const host = document.querySelector("[data-site-footer]");
     if (!host) return;
     host.innerHTML = '<footer class="site-footer"><div class="wrap footer-main"><div class="footer-brand"><a class="brand brand-footer" href="index.html"><span class="brand-mark" aria-hidden="true"><img class="brand-logo-image" src="assets/astro-alok-tripathi-logo.png" alt=""></span><span class="brand-text"><strong>ALOK RANJAN TRIPATHI</strong><small data-en="VEDIC ASTROLOGY" data-hi="वैदिक ज्योतिष">वैदिक ज्योतिष</small></span></a><p class="footer-tagline" data-en="Ancient Wisdom. Personal Guidance." data-hi="परंपरा का ज्ञान, जीवन को नई दिशा।">परंपरा का ज्ञान, जीवन को नई दिशा।</p><p class="footer-experience" data-en="27 years of experience" data-hi="27 वर्षों का अनुभव">27 वर्षों का अनुभव</p></div>' +
-      '<div class="footer-links"><h2 data-en="Explore" data-hi="जानें">जानें</h2><a href="about.html" data-en="About" data-hi="परिचय">परिचय</a><a href="services.html" data-en="Services" data-hi="सेवाएँ">सेवाएँ</a><a href="index.html#videos" data-en="Videos" data-hi="वीडियो">वीडियो</a><a href="articles.html" data-en="Articles" data-hi="लेख">लेख</a><a href="feedback.html" data-en="Customer feedback" data-hi="ग्राहक प्रतिक्रिया">ग्राहक प्रतिक्रिया</a><a href="booking.html" data-en="Request a consultation" data-hi="परामर्श का अनुरोध करें">परामर्श का अनुरोध करें</a><a href="contact.html" data-en="Contact" data-hi="संपर्क">संपर्क</a><a href="dashboard.html" data-en="My account" data-hi="मेरा खाता">मेरा खाता</a><a href="login.html" data-en="Member sign in" data-hi="सदस्य साइन इन">सदस्य साइन इन</a><a href="signup.html" data-en="Create an account" data-hi="खाता बनाएँ">खाता बनाएँ</a></div>' +
+      '<div class="footer-links"><h2 data-en="Explore" data-hi="जानें">जानें</h2><a href="about.html" data-en="About" data-hi="परिचय">परिचय</a><a href="services.html" data-en="Services" data-hi="सेवाएँ">सेवाएँ</a><a href="pooja.html" data-en="Pooja booking" data-hi="पूजा बुकिंग">पूजा बुकिंग</a><a href="index.html#videos" data-en="Videos" data-hi="वीडियो">वीडियो</a><a href="articles.html" data-en="Articles" data-hi="लेख">लेख</a><a href="feedback.html" data-en="Customer feedback" data-hi="ग्राहक प्रतिक्रिया">ग्राहक प्रतिक्रिया</a><a href="booking.html" data-en="Request a consultation" data-hi="परामर्श का अनुरोध करें">परामर्श का अनुरोध करें</a><a href="contact.html" data-en="Contact" data-hi="संपर्क">संपर्क</a><a href="dashboard.html" data-en="My account" data-hi="मेरा खाता">मेरा खाता</a><a href="login.html" data-en="Member sign in" data-hi="सदस्य साइन इन">सदस्य साइन इन</a><a href="signup.html" data-en="Create an account" data-hi="खाता बनाएँ">खाता बनाएँ</a></div>' +
       '<div class="footer-links footer-contact"><h2 data-en="Get in touch" data-hi="संपर्क करें">संपर्क करें</h2><a href="https://wa.me/918319482309" target="_blank" rel="noopener noreferrer">WhatsApp · +91 83194 82309</a><a href="' + YOUTUBE_CHANNEL_URL + '" target="_blank" rel="noopener noreferrer" data-en="YouTube channel ↗" data-hi="YouTube चैनल ↗">YouTube चैनल ↗</a><a href="' + FACEBOOK_URL + '" target="_blank" rel="noopener noreferrer" aria-label="Facebook profile">Facebook ↗</a><a href="' + INSTAGRAM_URL + '" target="_blank" rel="noopener noreferrer" aria-label="Instagram profile">Instagram ↗</a><p data-en="Location details will be added by the owner." data-hi="स्थान की जानकारी स्वामी द्वारा जोड़ी जाएगी।">स्थान की जानकारी स्वामी द्वारा जोड़ी जाएगी।</p><a href="https://wa.me/918319482309" target="_blank" rel="noopener noreferrer" data-en="Send a message ↗" data-hi="संदेश भेजें ↗">संदेश भेजें ↗</a></div></div>' +
       '<div class="footer-bottom"><div class="wrap footer-bottom-inner"><span>© <span data-current-year></span> ALOK RANJAN TRIPATHI</span><div><a href="privacy.html" data-en="Privacy policy" data-hi="गोपनीयता नीति">गोपनीयता नीति</a><a href="terms.html" data-en="Terms of use" data-hi="उपयोग की शर्तें">उपयोग की शर्तें</a></div><span data-en="Rooted in tradition · Shared with care" data-hi="परंपरा से जुड़ाव · संवेदनशीलता से संवाद">परंपरा से जुड़ाव · संवेदनशीलता से संवाद</span></div></div></footer>' +
       '<a class="floating-whatsapp" href="https://wa.me/918319482309" target="_blank" rel="noopener noreferrer" aria-label="Contact Astro Alok Tripathi on WhatsApp"><span class="wa-mark" aria-hidden="true">◔</span><span data-en="WhatsApp" data-hi="WhatsApp">WhatsApp</span></a>';
@@ -109,7 +111,7 @@
   }
 
   function formError(form, message) {
-    const error = document.getElementById(form.id === "booking-form" ? "booking-error" : "contact-error");
+    const error = document.getElementById(form.id === "booking-form" ? "booking-error" : form.id === "pooja-form" ? "pooja-error" : "contact-error");
     error.textContent = message;
     error.hidden = false;
   }
@@ -136,8 +138,8 @@
     return WHATSAPP_URL + "?text=" + encodeURIComponent(message);
   }
 
-  async function saveEnquiry(payload) {
-    const response = await fetch("/api/enquiries", {
+  async function saveEnquiry(payload, endpoint) {
+    const response = await fetch(endpoint || "/api/enquiries", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
@@ -147,14 +149,14 @@
     }
   }
 
-  async function submitEnquiry(form, payload, message, confirmation) {
-    const error = document.getElementById(form.id === "booking-form" ? "booking-error" : "contact-error");
+  async function submitEnquiry(form, payload, message, confirmation, endpoint) {
+    const error = document.getElementById(form.id === "booking-form" ? "booking-error" : form.id === "pooja-form" ? "pooja-error" : "contact-error");
     const button = form.querySelector('[type="submit"]');
     const whatsappWindow = window.open("about:blank", "_blank");
     if (whatsappWindow) whatsappWindow.opener = null;
     button.disabled = true;
     try {
-      await saveEnquiry(payload);
+      await saveEnquiry(payload, endpoint);
       const whatsappUrl = openWhatsApp(message);
       if (whatsappWindow) {
         whatsappWindow.location.replace(whatsappUrl);
@@ -267,6 +269,56 @@
       }, message, language === "hi"
         ? "आपकी पूछताछ सहेज ली गई है। कृपया WhatsApp में संदेश जाँचकर भेजें।"
         : "Your enquiry has been saved. Please review and send the message in WhatsApp.");
+    });
+  }
+
+  function setupPoojaForm() {
+    const form = document.getElementById("pooja-form");
+    if (!form) return;
+    const dateInput = form.elements.preferredDate;
+    const today = new Date();
+    dateInput.min = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, "0"), String(today.getDate()).padStart(2, "0")].join("-");
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const error = document.getElementById("pooja-error");
+      error.hidden = true;
+      error.classList.remove("form-success");
+      setMobileValidity(form);
+      if (!form.checkValidity()) {
+        formError(form, validationMessage(form));
+        form.querySelector(":invalid").focus();
+        return;
+      }
+      const data = new FormData(form);
+      const hi = language === "hi";
+      const fields = hi
+        ? { start: "नमस्कार, मैं पूजा का अनुरोध करना चाहता/चाहती हूँ।", pooja: "पूजा", mode: "माध्यम", name: "नाम", mobile: "मोबाइल", address: "पता", date: "पसंदीदा तारीख", time: "पसंदीदा समय" }
+        : { start: "Hello, I would like to request a pooja.", pooja: "Pooja", mode: "Mode", name: "Name", mobile: "Mobile", address: "Address", date: "Preferred date", time: "Preferred time" };
+      const values = {
+        poojaType: data.get("poojaType"),
+        mode: data.get("mode"),
+        name: data.get("name").trim(),
+        mobile: data.get("mobile").trim(),
+        address: data.get("address").trim(),
+        preferredDate: data.get("preferredDate"),
+        preferredTime: data.get("preferredTime"),
+        preferredLanguage: language === "hi" ? "Hindi" : "English",
+        privacyConsent: data.get("privacyConsent") === "on"
+      };
+      const poojaEnglish = {
+        "वास्तु पूजा": "Vastu Pooja",
+        "कालसर्प पूजा": "Kaal Sarp Pooja",
+        "महामृत्युंजय जप अनुष्ठान": "Mahamrityunjaya Jaap Anushthan",
+        "ग्रह शांति": "Graha Shanti",
+        "ग्रह दोष निवारण": "Graha Dosh Nivaran",
+        "पितृदोष निवारण": "Pitru Dosh Nivaran"
+      };
+      const poojaLabel = hi ? values.poojaType : poojaEnglish[values.poojaType];
+      const modeLabel = hi ? (values.mode === "Online" ? "ऑनलाइन" : "ऑफलाइन / व्यक्तिगत रूप से") : values.mode;
+      const message = [fields.start, fields.pooja + ": " + poojaLabel, fields.mode + ": " + modeLabel, fields.name + ": " + values.name, fields.mobile + ": " + values.mobile, fields.address + ": " + values.address, fields.date + ": " + values.preferredDate, fields.time + ": " + values.preferredTime].join("\n");
+      await submitEnquiry(form, values, message, hi
+        ? "आपका पूजा अनुरोध सहेज लिया गया है। WhatsApp में विवरण जाँचकर भेजें; समय की पुष्टि सीधे की जाएगी।"
+        : "Your pooja request has been saved. Review and send the WhatsApp message; timing will be confirmed directly.", "/api/pooja-enquiries");
     });
   }
 
@@ -396,6 +448,7 @@
   setupNavigation();
   setupDepthMotion();
   setupBookingForm();
+  setupPoojaForm();
   setupContactForm();
   configureCanonical();
   const languageToggle = document.querySelector("[data-language-toggle]");

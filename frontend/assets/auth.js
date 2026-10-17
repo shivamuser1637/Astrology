@@ -602,6 +602,9 @@
         });
         setError(error, chatLanguage("Your feedback is now public. You can edit it here.", "आपकी प्रतिक्रिया अब सार्वजनिक है। आप इसे यहाँ बदल सकते हैं।"));
         error.classList.add("form-success");
+        const thankYou = document.getElementById("feedback-thank-you");
+        if (thankYou && typeof thankYou.showModal === "function") thankYou.showModal();
+        else window.alert(chatLanguage("Thank you for your feedback! Your feedback has been submitted.", "आपकी प्रतिक्रिया के लिए धन्यवाद! आपकी प्रतिक्रिया जमा हो गई है।"));
         await loadPublicFeedback();
       } catch (requestError) {
         setError(error, requestError.message);

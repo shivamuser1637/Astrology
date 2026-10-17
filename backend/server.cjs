@@ -8,7 +8,7 @@ const { Pool } = require("pg");
 const { WebSocketServer, WebSocket } = require("ws");
 const { hashPassword, hashSessionToken, validateCredentials, verifyPassword } = require("./auth.cjs");
 
-const ROOT = __dirname;
+const ROOT = path.resolve(__dirname, "../frontend");
 const MAX_BODY_BYTES = 128 * 1024;
 const MAX_CHAT_MESSAGE_LENGTH = 2000;
 const CHAT_RATE_WINDOW_MS = 60 * 1000;
@@ -101,6 +101,23 @@ function validateEnquiry(body) {
   if (typeof body.preferredTime !== "string" || !/^([01]\d|2[0-3]):[0-5]\d$/.test(body.preferredTime)) {
     return "Enter a valid preferred time.";
   }
+  return null;
+}
+
+function validatePoojaEnquiry(body) {
+  if (!body || typeof body !== "object" || Array.isArray(body)) return "The pooja request must be a JSON object.";
+  if (body.privacyConsent !== true) return "Privacy consent is required.";
+  if (typeof body.name !== "string" || !body.name.trim() || body.name.trim().length > 100) return "Enter a name of 1 to 100 characters.";
+  if (typeof body.mobile !== "string" || !/^\+?[0-9]{7,15}$/.test(body.mobile.trim().replace(/[\s()-]/g, ""))) return "Enter a valid mobile number.";
+  if (typeof body.address !== "string" || !body.address.trim() || body.address.trim().length > 500) return "Enter an address of 1 to 500 characters.";
+  if (body.preferredLanguage !== "Hindi" && body.preferredLanguage !== "English") return "Choose Hindi or English.";
+  if (!["वास्तु पूजा", "कालसर्प पूजा", "महामृत्युंजय जप अनुष्ठान", "ग्रह शांति", "ग्रह दोष निवारण", "पितृदोष निवारण"].includes(body.poojaType)) return "Choose a valid pooja.";
+  if (body.mode !== "Online" && body.mode !== "Offline") return "Choose online or offline pooja.";
+  if (typeof body.preferredDate !== "string"
+      || !/^\d{4}-\d{2}-\d{2}$/.test(body.preferredDate)
+      || Number.isNaN(Date.parse(body.preferredDate))
+      || new Date(body.preferredDate).toISOString().slice(0, 10) !== body.preferredDate) return "Enter a valid preferred date.";
+  if (typeof body.preferredTime !== "string" || !/^([01]\d|2[0-3]):[0-5]\d$/.test(body.preferredTime)) return "Enter a valid preferred time.";
   return null;
 }
 
@@ -343,6 +360,23 @@ async function handleApi(request, response, requestUrl, pool, chatConnections) {
     }
     clearSessionCookie(response);
     sendJson(response, 200, { ok: true });
+    return;
+  }
+  if (pathname === "/api/pooja-enquiries" && method === "POST") {
+    if (rateLimited(request, pathname, response)) return;
+    const body = await readJson(request);
+    const validationError = validatePoojaEnquiry(body);
+    if (validationError) {
+      sendJson(response, 400, { error: validationError });
+      return;
+    }
+    await pool.query(
+      `INSERT INTO public.pooja_enquiries
+        (name, mobile, address, pooja_type, mode, preferred_language, preferred_date, preferred_time, privacy_consent)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, TRUE)`,
+      [body.name.trim(), body.mobile.trim(), body.address.trim(), body.poojaType, body.mode, body.preferredLanguage, body.preferredDate, body.preferredTime]
+    );
+    sendJson(response, 201, { ok: true });
     return;
   }
   if (pathname === "/api/enquiries" && method === "POST") {
@@ -840,7 +874,7 @@ async function start() {
     : undefined);
   try {
     await pool.query("SELECT 1");
-    const schema = await fs.promises.readFile(path.join(ROOT, "database", "schema.sql"), "utf8");
+    const schema = await fs.promises.readFile(path.resolve(__dirname, "../database/schema.sql"), "utf8");
     await pool.query(schema);
     await pool.query("DELETE FROM public.login_sessions WHERE expires_at <= NOW()");
   } catch (error) {

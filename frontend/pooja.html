@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101c36">
+  <title>Pooja Booking | Astro Alok Tripathi</title>
+  <meta name="description" content="पूजा के लिए ऑनलाइन या ऑफलाइन अनुरोध भेजें। पूजा, संपर्क और पसंदीदा समय की जानकारी भरें।">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pooja Booking | Astro Alok Tripathi">
+  <meta property="og:description" content="Request an online or in-person pooja with Astro Alok Tripathi.">
+  <meta property="og:image" content="assets/astrology-art.svg">
+  <link rel="icon" href="assets/astro-alok-tripathi-logo.png" type="image/png">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/site-config.js" defer></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <div data-site-header></div>
+  <main>
+    <section class="page-hero page-hero-compact">
+      <div class="wrap page-hero-inner">
+        <div class="section-kicker"><span>VEDIC RITUALS</span><span class="kicker-line"></span><span data-en="Online or in person" data-hi="ऑनलाइन या व्यक्तिगत रूप से">ऑनलाइन या व्यक्तिगत रूप से</span></div>
+        <h1 data-en="A pooja request,<br><em>made with care.</em>" data-hi="पूजा का अनुरोध,<br><em>श्रद्धा के साथ।</em>">पूजा का अनुरोध,<br><em>श्रद्धा के साथ।</em></h1>
+        <p data-en="Choose a pooja and your preferred way to participate. Send a request and we will contact you to discuss details and availability." data-hi="पूजा और उसमें शामिल होने का अपना पसंदीदा तरीका चुनें। अनुरोध भेजें; विवरण और उपलब्धता पर चर्चा के लिए हम आपसे संपर्क करेंगे।">पूजा और उसमें शामिल होने का अपना पसंदीदा तरीका चुनें। अनुरोध भेजें; विवरण और उपलब्धता पर चर्चा के लिए हम आपसे संपर्क करेंगे।</p>
+      </div>
+    </section>
+    <section class="section-pad booking-section pooja-booking-section">
+      <div class="wrap booking-layout">
+        <aside class="booking-aside">
+          <div class="section-kicker"><span>POOJA OPTIONS</span><span class="kicker-line"></span><span data-en="Six traditional services" data-hi="छह पारंपरिक पूजाएँ">छह पारंपरिक पूजाएँ</span></div>
+          <h2 data-en="Choose the ritual<br><em>you have in mind.</em>" data-hi="अपनी आवश्यकता के<br><em>अनुसार पूजा चुनें।</em>">अपनी आवश्यकता के<br><em>अनुसार पूजा चुनें।</em></h2>
+          <ul class="pooja-list">
+            <li data-en="Vastu Pooja" data-hi="वास्तु पूजा">वास्तु पूजा</li>
+            <li data-en="Kaal Sarp Pooja" data-hi="कालसर्प पूजा">कालसर्प पूजा</li>
+            <li data-en="Mahamrityunjaya Jaap Anushthan" data-hi="महामृत्युंजय जप अनुष्ठान">महामृत्युंजय जप अनुष्ठान</li>
+            <li data-en="Graha Shanti" data-hi="ग्रह शांति">ग्रह शांति</li>
+            <li data-en="Graha Dosh Nivaran" data-hi="ग्रह दोष निवारण">ग्रह दोष निवारण</li>
+            <li data-en="Pitru Dosh Nivaran" data-hi="पितृदोष निवारण">पितृदोष निवारण</li>
+          </ul>
+          <div class="privacy-callout"><span class="callout-icon" aria-hidden="true">✳</span><p data-en="Your address and contact number are stored with your request and prepared for WhatsApp. Please share only details needed to discuss the pooja. We will confirm arrangements directly." data-hi="आपका पता और मोबाइल नंबर अनुरोध के साथ सहेजे जाएँगे और WhatsApp संदेश में शामिल होंगे। कृपया पूजा की चर्चा के लिए आवश्यक जानकारी ही साझा करें। व्यवस्था की पुष्टि सीधे की जाएगी।">आपका पता और मोबाइल नंबर अनुरोध के साथ सहेजे जाएँगे और WhatsApp संदेश में शामिल होंगे। कृपया पूजा की चर्चा के लिए आवश्यक जानकारी ही साझा करें। व्यवस्था की पुष्टि सीधे की जाएगी।</p></div>
+        </aside>
+        <form class="enquiry-form" id="pooja-form" novalidate>
+          <div class="form-heading"><span class="form-heading-mark" aria-hidden="true">✳</span><div><h2 data-en="Pooja request" data-hi="पूजा अनुरोध">पूजा अनुरोध</h2><p data-en="Fields marked * are required. A request does not confirm a booking." data-hi="* चिह्नित फ़ील्ड आवश्यक हैं। अनुरोध से बुकिंग की पुष्टि नहीं होती।">* चिह्नित फ़ील्ड आवश्यक हैं। अनुरोध से बुकिंग की पुष्टि नहीं होती।</p></div></div>
+          <div class="form-grid">
+            <div class="field field-full"><label for="pooja-type"><span data-en="Pooja" data-hi="पूजा">पूजा</span> <span class="required">*</span></label><select id="pooja-type" name="poojaType" required><option value="" data-en="Choose a pooja" data-hi="पूजा चुनें">पूजा चुनें</option><option value="वास्तु पूजा" data-en="Vastu Pooja" data-hi="वास्तु पूजा">वास्तु पूजा</option><option value="कालसर्प पूजा" data-en="Kaal Sarp Pooja" data-hi="कालसर्प पूजा">कालसर्प पूजा</option><option value="महामृत्युंजय जप अनुष्ठान" data-en="Mahamrityunjaya Jaap Anushthan" data-hi="महामृत्युंजय जप अनुष्ठान">महामृत्युंजय जप अनुष्ठान</option><option value="ग्रह शांति" data-en="Graha Shanti" data-hi="ग्रह शांति">ग्रह शांति</option><option value="ग्रह दोष निवारण" data-en="Graha Dosh Nivaran" data-hi="ग्रह दोष निवारण">ग्रह दोष निवारण</option><option value="पितृदोष निवारण" data-en="Pitru Dosh Nivaran" data-hi="पितृदोष निवारण">पितृदोष निवारण</option></select></div>
+            <div class="field field-full"><label for="pooja-mode"><span data-en="How would you like to participate?" data-hi="आप किस माध्यम से पूजा करना चाहते हैं?">आप किस माध्यम से पूजा करना चाहते हैं?</span> <span class="required">*</span></label><select id="pooja-mode" name="mode" required><option value="" data-en="Choose online or offline" data-hi="ऑनलाइन या ऑफलाइन चुनें">ऑनलाइन या ऑफलाइन चुनें</option><option value="Online" data-en="Online" data-hi="ऑनलाइन">ऑनलाइन</option><option value="Offline" data-en="Offline / in person" data-hi="ऑफलाइन / व्यक्तिगत रूप से">ऑफलाइन / व्यक्तिगत रूप से</option></select></div>
+            <div class="field"><label for="pooja-name"><span data-en="Full name" data-hi="पूरा नाम">पूरा नाम</span> <span class="required">*</span></label><input id="pooja-name" name="name" autocomplete="name" required maxlength="100" data-placeholder-en="Your name" data-placeholder-hi="आपका नाम" placeholder="आपका नाम"></div>
+            <div class="field"><label for="pooja-mobile"><span data-en="Mobile number" data-hi="मोबाइल नंबर">मोबाइल नंबर</span> <span class="required">*</span></label><input id="pooja-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required maxlength="25" data-placeholder-en="Include country code" data-placeholder-hi="देश कोड सहित नंबर" placeholder="देश कोड सहित नंबर"></div>
+            <div class="field field-full"><label for="pooja-address"><span data-en="Address / location" data-hi="पता / स्थान">पता / स्थान</span> <span class="required">*</span></label><textarea id="pooja-address" name="address" rows="3" required maxlength="500" autocomplete="street-address" data-placeholder-en="Enter your address or location" data-placeholder-hi="अपना पता या स्थान लिखें" placeholder="अपना पता या स्थान लिखें"></textarea></div>
+            <div class="field"><label for="pooja-date"><span data-en="Preferred date" data-hi="पसंदीदा तारीख">पसंदीदा तारीख</span> <span class="required">*</span></label><input id="pooja-date" name="preferredDate" type="date" required></div>
+            <div class="field"><label for="pooja-time"><span data-en="Preferred time" data-hi="पसंदीदा समय">पसंदीदा समय</span> <span class="required">*</span></label><input id="pooja-time" name="preferredTime" type="time" required></div>
+            <div class="field field-full"><label class="consent-label" for="pooja-consent"><input id="pooja-consent" name="privacyConsent" type="checkbox" required><span data-en="I agree that my name, phone number, address and requested pooja details will be stored in the website database and included in a WhatsApp message for follow-up. I have read the " data-hi="मैं सहमत हूँ कि मेरा नाम, मोबाइल नंबर, पता और पूजा अनुरोध वेबसाइट डेटाबेस में सहेजे जाएँगे और आगे संपर्क के लिए WhatsApp संदेश में शामिल होंगे। मैंने ">मैं सहमत हूँ कि मेरा नाम, मोबाइल नंबर, पता और पूजा अनुरोध वेबसाइट डेटाबेस में सहेजे जाएँगे और आगे संपर्क के लिए WhatsApp संदेश में शामिल होंगे। मैंने </span><a href="privacy.html" data-en="Privacy Policy" data-hi="गोपनीयता नीति">गोपनीयता नीति</a>.</label></div>
+          </div>
+          <p class="form-error" id="pooja-error" role="alert" hidden></p>
+          <button class="button button-navy form-submit" type="submit"><span data-en="Continue to WhatsApp" data-hi="WhatsApp पर आगे बढ़ें">WhatsApp पर आगे बढ़ें</span><span aria-hidden="true">↗</span></button>
+          <p class="form-note" data-en="Your request is saved first. Review the prepared message and press Send in WhatsApp. We will confirm availability and arrangements with you." data-hi="पहले आपका अनुरोध सहेजा जाएगा। WhatsApp में तैयार संदेश जाँचकर भेजें दबाएँ। उपलब्धता और व्यवस्था की पुष्टि आपसे सीधे की जाएगी।">पहले आपका अनुरोध सहेजा जाएगा। WhatsApp में तैयार संदेश जाँचकर भेजें दबाएँ। उपलब्धता और व्यवस्था की पुष्टि आपसे सीधे की जाएगी।</p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <div data-site-footer></div>
+</body>
+</html>

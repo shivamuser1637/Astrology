@@ -107,7 +107,7 @@ test("static server does not expose secrets or database schema", async (context)
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   context.after(() => new Promise((resolve) => server.close(resolve)));
   const origin = "http://127.0.0.1:" + server.address().port;
-  for (const file of ["/.env", "/database/schema.sql", "/server.cjs", "/package.json"]) {
+  for (const file of ["/.env", "/database/schema.sql", "/backend/server.cjs", "/backend/auth.cjs", "/package.json"]) {
     const response = await fetch(origin + file);
     assert.equal(response.status, 404, file);
   }
@@ -121,7 +121,7 @@ test("sign-up creates only a customer account and stores a hashed session token"
     async query(sql, values) {
       statements.push({ sql, values });
       if (sql.includes("INSERT INTO public.astro_users")) {
-        return { rows: [{ id: 8, email: "asha@example.com", role: "customer" }] };
+        return { rows: [{ id: 8, first_name: "Asha", last_name: "Sharma", email: "asha@example.com", role: "customer" }] };
       }
       return { rows: [] };
     },
@@ -135,13 +135,13 @@ test("sign-up creates only a customer account and stores a hashed session token"
   const response = await fetch(origin + "/api/signup", {
     method: "POST",
     headers: { Origin: origin, "Content-Type": "application/json" },
-    body: JSON.stringify({ email: "Asha@example.com", password: "A secure password 123!" })
+    body: JSON.stringify({ firstName: "Asha", lastName: "Sharma", email: "Asha@example.com", password: "A secure password 123!" })
   });
   assert.equal(response.status, 201);
-  assert.deepEqual(await response.json(), { user: { id: "8", email: "asha@example.com", role: "customer" } });
+  assert.deepEqual(await response.json(), { user: { id: "8", firstName: "Asha", lastName: "Sharma", email: "asha@example.com", role: "customer" } });
   assert.match(response.headers.get("set-cookie"), /HttpOnly/);
   const passwordInsert = statements.find((statement) => statement.sql.includes("INSERT INTO public.astro_users"));
-  assert.match(passwordInsert.values[1], /^scrypt\$/);
+  assert.match(passwordInsert.values[3], /^scrypt\$/);
   const sessionInsert = statements.find((statement) => statement.sql.includes("INSERT INTO public.login_sessions"));
   assert.match(sessionInsert.values[0], /^[a-f0-9]{64}$/);
 });
