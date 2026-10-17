@@ -600,6 +600,7 @@
             publicConsent: data.get("publicConsent") === "on"
           })
         });
+        form.reset();
         setError(error, chatLanguage("Your feedback is now public. You can edit it here.", "आपकी प्रतिक्रिया अब सार्वजनिक है। आप इसे यहाँ बदल सकते हैं।"));
         error.classList.add("form-success");
         const thankYou = document.getElementById("feedback-thank-you");

@@ -163,6 +163,7 @@
       }
       formError(form, confirmation);
       error.classList.add("form-success");
+      form.reset();
       if (!whatsappWindow) {
         const fallback = document.createElement("a");
         fallback.className = "text-link";
@@ -183,14 +184,13 @@
         fallback.href = openWhatsApp(message);
         fallback.target = "_blank";
         fallback.rel = "noopener noreferrer";
-        fallback.textContent = language === "hi" ? "WhatsApp à¤¸à¤‚à¤¦à¥‡à¤¶ à¤–à¥‹à¤²à¥‡à¤‚" : "Open WhatsApp message";
+        fallback.textContent = language === "hi" ? "WhatsApp संदेश खोलें" : "Open WhatsApp message";
         error.append(" ", fallback);
       }
     } finally {
       button.disabled = false;
     }
   }
-
   function setupBookingForm() {
     const form = document.getElementById("booking-form");
     if (!form) return;
@@ -236,7 +236,7 @@
         privacyConsent: data.get("privacyConsent") === "on"
       }, lines.join("\n"), language === "hi"
         ? "आपका अनुरोध सहेज लिया गया है। WhatsApp में संदेश जाँचकर भेजें; सीधे सहमति होने तक परामर्श का समय पक्का नहीं है।"
-        : "Your enquiry has been saved. Review and send the WhatsApp message; your appointment is not confirmed until agreed directly.");
+        : "Thank you! Your consultation enquiry has been saved. Review and send the WhatsApp message; your appointment is not confirmed until agreed directly.");
     });
   }
 
@@ -318,7 +318,7 @@
       const message = [fields.start, fields.pooja + ": " + poojaLabel, fields.mode + ": " + modeLabel, fields.name + ": " + values.name, fields.mobile + ": " + values.mobile, fields.address + ": " + values.address, fields.date + ": " + values.preferredDate, fields.time + ": " + values.preferredTime].join("\n");
       await submitEnquiry(form, values, message, hi
         ? "आपका पूजा अनुरोध सहेज लिया गया है। WhatsApp में विवरण जाँचकर भेजें; समय की पुष्टि सीधे की जाएगी।"
-        : "Your pooja request has been saved. Review and send the WhatsApp message; timing will be confirmed directly.", "/api/pooja-enquiries");
+        : "Thank you! Your pooja request has been saved. Review and send the WhatsApp message; timing will be confirmed directly.", "/api/pooja-enquiries");
     });
   }
 
